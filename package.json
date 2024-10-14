@@ -1,0 +1,17 @@
+{
+  "name": "engageai-aisummary",
+  "version": "1.0.0",
+  "description": "This repositary is all about EngageAI AI Summary",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Atique Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-bedrock": "^3.670.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.670.0",
+    "axios": "^1.7.7",
+    "chalk": "^4.1.2"
+  }
+}
