@@ -47,7 +47,20 @@ This process leads to global warming, rising sea levels, and more extreme weathe
 temperatures, the overall impact is detrimental to ecosystems and human life.
 `;
 
-invokeJambaMini(caseDescription)
+const case2 = `Dear Customer,
+
+I hope you are doing well.
+
+I wanted to follow up regarding the Zoom Meeting SDK upgrade from version 2.18.2 to 3.1.6. In my previous email, I shared a working demo along with the GitHub repository for the updated code. I trust you’ve had the opportunity to review and test the solution.
+
+I’ve sent multiple follow-ups regarding this, and if there are any issues you’ve encountered or you require further assistance, please feel free to share the specifics. I’m here to help ensure the upgrade process goes smoothly.
+
+Kindly note that if I do not hear back from you by the end of today, I will proceed to close the ticket tomorrow. Of course, if needed, you can always reopen the ticket at any point in the future.
+
+Thank you once again for your patience and cooperation. I look forward to hearing from you soon.
+`
+
+invokeJambaMini(case2)
     .then(response => {
         console.log(chalk.yellow("\nGenerated Summary with Headlines:\n"));
         console.log(chalk.green(response.completions[0].data.text + "\n"));
