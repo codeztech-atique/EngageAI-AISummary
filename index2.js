@@ -1,24 +1,24 @@
 const { BedrockRuntimeClient, InvokeModelCommand } = require("@aws-sdk/client-bedrock-runtime");
 const chalk = require('chalk');
 
-
 // Initialize the Bedrock Runtime client
 const client = new BedrockRuntimeClient({ region: "us-east-1" });
 
 async function invokeJambaMini(prompt) {
     const params = {
-        modelId: "ai21.j2-mid-v1",
+        modelId: "ai21.jamba-1-5-mini-v1:0",  // Using the correct model ID
         contentType: "application/json",
         accept: "application/json",
         body: JSON.stringify({
-            prompt: `Please summarize the following text into key points and provide clear section headlines: ${prompt}`,
-            maxTokens: 2000,
+            messages: [
+                {
+                    role: "user",
+                    content: prompt  // The modified prompt for headline generation
+                }
+            ],
+            max_tokens: 1000,
             temperature: 0.7,
-            topP: 1,
-            stopSequences: [],
-            countPenalty: { scale: 0 },
-            presencePenalty: { scale: 0 },
-            frequencyPenalty: { scale: 0 }
+            top_p: 0.8
         })
     };
 
@@ -30,9 +30,8 @@ async function invokeJambaMini(prompt) {
         const text = buffer.toString();
         const responseData = JSON.parse(text);
 
-        // console.log("Response:", responseData);
-        console.log(chalk.red("\nQuestion Asked:\n"));
-        console.log(chalk.blue(prompt+"\n"))
+        console.log(chalk.red("\nPrompt Sent:\n"));
+        console.log(chalk.blue(prompt + "\n"));
         return responseData;
 
     } catch (error) {
@@ -40,7 +39,6 @@ async function invokeJambaMini(prompt) {
         return null;
     }
 }
-
 
 const caseDescription = `
 Climate change refers to long-term shifts in temperatures and weather patterns, mainly due to human activities such as burning fossil fuels. 
@@ -59,14 +57,14 @@ Iâ€™ve sent multiple follow-ups regarding this, and if there are any issues youâ
 Kindly note that if I do not hear back from you by the end of today, I will proceed to close the ticket tomorrow. Of course, if needed, you can always reopen the ticket at any point in the future.
 
 Thank you once again for your patience and cooperation. I look forward to hearing from you soon.
-`
+`;
 
+const prompt = `Please summarize the following content into numbered key points: ${caseDescription}`;
 
-console.log(chalk.yellow("Please wait..."))
-invokeJambaMini(case2)
+console.log(chalk.yellow("Please wait..."));
+invokeJambaMini(prompt)
     .then(response => {
-        console.log(chalk.yellow("\nGenerated Summary with Headlines:\n"));
-        // console.log(chalk.green(response.completions[0].data.text + "\n"));
+        console.log(chalk.yellow("\nGenerated Headline:\n"));
+        console.log(chalk.green(response.choices[0].message.content + "\n"));  // Accessing the response
     })
     .catch(err => console.error("Invocation Error:", err));
-
